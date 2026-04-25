@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Issue Asset')}"></head>
+<body>
+    <div th:replace="~{fragments :: sidebar('assignments')}"></div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1>Issue New Asset</h1>
+            <a th:href="@{/assignments}" class="btn" style="border: 1px solid #ddd;">Cancel</a>
+        </div>
+
+        <div class="table-container" style="max-width: 600px;">
+            <form th:action="@{/assignments/save}" method="post">
+                <div class="form-group">
+                    <label>Select Asset</label>
+                    <select name="assetId" required>
+                        <option value="">-- Choose available asset --</option>
+                        <option th:each="asset : ${assets}" 
+                                th:if="${asset.availabilityStatus == 'Available'}"
+                                th:value="${asset.id}" 
+                                th:text="${asset.name + ' (' + asset.serialNumber + ')'}"></option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Employee Staff ID</label>
+                    <select name="staffId" required>
+                        <option value="">-- Choose employee --</option>
+                        <option th:each="emp : ${employees}" 
+                                th:value="${emp.staffId}" 
+                                th:text="${emp.fullName + ' (' + emp.staffId + ')'}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Issue Notes</label>
+                    <textarea name="notes" rows="3" placeholder="Condition at issue, expected return date etc."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Complete Assignment</button>
+            </form>
+        </div>
+        <div th:replace="~{fragments :: footer}"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <title th:text="${title + ' - IMS'}">IMS</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+    <div th:fragment="sidebar(activePage)" class="sidebar">
+        <div class="brand">IMS</div>
+        <nav>
+            <a th:href="@{/dashboard}" th:class="${activePage == 'dashboard' ? 'active' : ''}">Dashboard</a>
+            <a th:href="@{/assets}" th:class="${activePage == 'assets' ? 'active' : ''}">Assets</a>
+            
+            <div sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/assignments}" th:class="${activePage == 'assignments' ? 'active' : ''}">Assignments</a>
+                <a th:href="@{/employees}" th:class="${activePage == 'employees' ? 'active' : ''}">Employees</a>
+                <a th:href="@{/reports}" th:class="${activePage == 'reports' ? 'active' : ''}">Activity Logs</a>
+            </div>
+        </nav>
+        
+        <div style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-size: 13px; margin-bottom: 15px; color: #cbd5e0;">
+                Logged in: <span style="font-weight: bold; color: white;" th:text="${#authentication.name}">User</span>
+            </div>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn" style="background: #E40000; color: white; border: none; padding: 10px; cursor: pointer; width: 100%; border-radius: 4px; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div th:fragment="footer" class="footer">
+        &copy; 2026 Airtel Inventory Management System. All rights reserved.
+    </div>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments :: head('Dashboard')}"></head>
+<body>
+    <div th:replace="~{fragments :: sidebar('dashboard')}"></div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1>Welcome, <span th:text="${#authentication.name}">User</span></h1>
+            <div th:text="${#temporals.format(#temporals.createNow(), 'dd MMM yyyy')}">Date</div>
+        </div>
+
+        <div sec:authorize="hasRole('ADMIN')">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Assets</h3>
+                    <div style="font-size: 24px; font-weight: bold;" th:text="${totalAssets}">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Assigned Assets</h3>
+                    <div style="font-size: 24px; font-weight: bold;" th:text="${activeAssignments}">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Employees</h3>
+                    <div style="font-size: 24px; font-weight: bold;" th:text="${totalEmployees}">0</div>
+                </div>
+            </div>
+
+            <h2>Recent Activity</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Action</th>
+                            <th>Details</th>
+                            <th>Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="log : ${recentLogs}">
+                            <td th:text="${#temporals.format(log.timestamp, 'HH:mm:ss')}"></td>
+                            <td th:text="${log.action}"></td>
+                            <td th:text="${log.details}"></td>
+                            <td th:text="${log.performedBy}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div sec:authorize="hasRole('USER')">
+            <div class="stat-card" style="margin-bottom: 20px;">
+                <h3>Airtel Portal</h3>
+                <p>Welcome to the asset management system. You can view the asset registry below.</p>
+                <a th:href="@{/assets}" class="btn btn-primary">Go to Assets</a>
+            </div>
+        </div>
+
+        <div th:replace="~{fragments :: footer}"></div>
+    </div>
+</body>
+</html>

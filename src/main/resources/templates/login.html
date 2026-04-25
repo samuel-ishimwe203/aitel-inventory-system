@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In - IMS</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #f0f2f5;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        .login-container {
+            background: white;
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .login-container h2 { margin-bottom: 30px; font-weight: 800; color: #001529; }
+        .form-group { text-align: left; margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: #595959; }
+        .form-group input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #d9d9d9; 
+            border-radius: 8px; 
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .form-group input:focus { border-color: #E40000; outline: none; }
+        .alert { 
+            padding: 12px; 
+            border-radius: 8px; 
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .alert-error { background: #fff2f0; border: 1px solid #ffccc7; color: #ff4d4f; }
+        .alert-success { background: #f6ffed; border: 1px solid #b7eb8f; color: #52c41a; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div style="margin-bottom: 30px;">
+            <span style="font-size: 28px; font-weight: 800; color: #E40000;">IMS</span>
+        </div>
+        
+        <h2>Sign In</h2>
+
+        <div th:if="${param.error}" class="alert alert-error">
+            Invalid credentials. Please try again.
+        </div>
+        <div th:if="${param.registered}" class="alert alert-success">
+            Account created! You can now sign in.
+        </div>
+        <div th:if="${param.logout}" class="alert alert-success">
+            You have successfully logged out.
+        </div>
+
+        <form th:action="@{/login}" method="post">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required autofocus placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="Enter password">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">Sign In</button>
+        </form>
+
+        <div style="margin-top: 30px; font-size: 14px; color: #595959;">
+            New to the system? <a th:href="@{/register}" style="color: #E40000; font-weight: 600; text-decoration: none;">Create an account</a>
+        </div>
+    </div>
+</body>
+</html>

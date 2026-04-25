@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Asset Form')}"></head>
+<body>
+    <div th:replace="~{fragments :: sidebar('assets')}"></div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1 th:text="${asset.id != null ? 'Edit Asset' : 'Register New Asset'}">Register New Asset</h1>
+        </div>
+
+        <div class="table-container" style="max-width: 600px; padding: 30px;">
+            <form th:action="@{/assets/save}" th:object="${asset}" method="post">
+                <input type="hidden" th:field="*{id}" />
+                
+                <div class="form-group">
+                    <label>Serial Number</label>
+                    <input type="text" th:field="*{serialNumber}" required th:readonly="${asset.id != null}">
+                </div>
+                
+                <div class="form-group">
+                    <label>Asset Name</label>
+                    <input type="text" th:field="*{name}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Asset Type</label>
+                    <select th:field="*{type}">
+                        <option value="Laptop">Laptop</option>
+                        <option value="Desktop">Desktop</option>
+                        <option value="Mobile">Mobile Phone</option>
+                        <option value="Tablet">Tablet</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Condition</label>
+                    <select th:field="*{conditionStatus}">
+                        <option value="New">New</option>
+                        <option value="Good">Good</option>
+                        <option value="Fair">Fair</option>
+                        <option value="Poor">Poor/Damaged</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Availability</label>
+                    <select th:field="*{availabilityStatus}">
+                        <option value="Available">Available</option>
+                        <option value="Assigned">Assigned</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Specifications</label>
+                    <textarea th:field="*{specifications}" rows="4"></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary">Save Asset</button>
+                    <a th:href="@{/assets}" class="btn" style="background: #95a5a6; color: white;">Cancel</a>
+                </div>
+            </form>
+        </div>
+
+        <div th:replace="~{fragments :: footer}"></div>
+    </div>
+</body>
+</html>

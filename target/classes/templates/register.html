@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account - IMS</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #f0f2f5;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        .register-container {
+            background: white;
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+        .register-container h2 { margin-bottom: 30px; font-weight: 800; color: #001529; }
+        .form-group { text-align: left; margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; color: #595959; }
+        .form-group input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #d9d9d9; 
+            border-radius: 8px; 
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .form-group input:focus { border-color: #E40000; outline: none; }
+        .alert { 
+            background: #fff2f0; 
+            border: 1px solid #ffccc7; 
+            color: #ff4d4f; 
+            padding: 12px; 
+            border-radius: 8px; 
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div style="margin-bottom: 30px;">
+            <span style="font-size: 28px; font-weight: 800; color: #E40000;">IMS</span>
+        </div>
+        
+        <h2>Create Account</h2>
+
+        <div th:if="${param.error}" class="alert">
+            That username is already taken.
+        </div>
+
+        <form th:action="@{/register}" method="post">
+            <div class="form-group">
+                <label>Choose Username</label>
+                <input type="text" name="username" required placeholder="e.g. jdoe123">
+            </div>
+            <div class="form-group">
+                <label>Secure Password</label>
+                <input type="password" name="password" required placeholder="••••••••">
+            </div>
+            <p style="font-size: 12px; color: #8c8c8c; margin-bottom: 20px;">
+                By registering, you will be granted full Admin access.
+            </p>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">Register Now</button>
+        </form>
+
+        <div style="margin-top: 30px; font-size: 14px; color: #595959;">
+            Already have an account? <a th:href="@{/login}" style="color: #E40000; font-weight: 600; text-decoration: none;">Sign in here</a>
+        </div>
+    </div>
+</body>
+</html>

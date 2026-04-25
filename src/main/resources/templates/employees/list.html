@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments :: head('Employees')}"></head>
+<body>
+    <div th:replace="~{fragments :: sidebar('employees')}"></div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1>Employee Directory</h1>
+            <a th:href="@{/employees/new}" sec:authorize="hasRole('ADMIN')" class="btn btn-primary">+ Add New Employee</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Staff ID</th>
+                        <th>Full Name</th>
+                        <th>Department</th>
+                        <th>Email</th>
+                        <th sec:authorize="hasRole('ADMIN')">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="emp : ${employees}">
+                        <td th:text="${emp.staffId}"></td>
+                        <td th:text="${emp.fullName}"></td>
+                        <td th:text="${emp.department}"></td>
+                        <td th:text="${emp.email}"></td>
+                        <td sec:authorize="hasRole('ADMIN')">
+                            <div style="display: flex; gap: 5px;">
+                                <a th:href="@{/employees/edit/{id}(id=${emp.id})}" class="btn btn-info" style="padding: 5px 10px; font-size: 12px;">Edit</a>
+                                <form th:action="@{/employees/delete/{id}(id=${emp.id})}" method="post" onsubmit="return confirm('Delete this employee?')">
+                                    <button type="submit" class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:replace="~{fragments :: footer}"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Issue & Return')}"></head>
+<body>
+    <div th:replace="~{fragments :: sidebar('assignments')}"></div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1>Asset Assignments</h1>
+            <a th:href="@{/assignments/new}" sec:authorize="hasRole('ADMIN')" class="btn btn-primary">+ Issue New Asset</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Employee</th>
+                        <th>Issue Date</th>
+                        <th>Return Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="assign : ${assignments}">
+                        <td>
+                            <strong th:text="${assign.asset.name}"></strong><br>
+                            <small th:text="${assign.asset.serialNumber}"></small>
+                        </td>
+                        <td th:text="${assign.employee.fullName}"></td>
+                        <td th:text="${#temporals.format(assign.issueDate, 'dd MMM yyyy')}"></td>
+                        <td th:text="${assign.returnDate != null ? #temporals.format(assign.returnDate, 'dd MMM yyyy') : '-'}"></td>
+                        <td>
+                            <span th:class="'badge ' + (${assign.status == 'Active' ? 'badge-assigned' : 'badge-available'})" 
+                                  th:text="${assign.status}"></span>
+                        </td>
+                        <td>
+                            <form th:if="${assign.status == 'Active'}" sec:authorize="hasRole('ADMIN')" th:action="@{/assignments/return/{id}(id=${assign.id})}" method="post">
+                                <button type="submit" class="btn btn-primary" style="background: #333; padding: 5px 10px; font-size: 12px;">Mark Returned</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(assignments)}">
+                        <td colspan="6" style="text-align: center; padding: 40px;">No assignments found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:replace="~{fragments :: footer}"></div>
+    </div>
+</body>
+</html>

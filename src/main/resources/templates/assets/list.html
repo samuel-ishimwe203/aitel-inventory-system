@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments :: head('Asset Registry')}"></head>
+<body>
+    <div th:replace="~{fragments :: sidebar('assets')}"></div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1>Asset Registry</h1>
+            <a th:href="@{/assets/new}" sec:authorize="hasRole('ADMIN')" class="btn btn-primary">+ Register New Asset</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Condition</th>
+                        <th>Status</th>
+                        <th sec:authorize="hasRole('ADMIN')">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="asset : ${assets}">
+                        <td th:text="${asset.serialNumber}"></td>
+                        <td th:text="${asset.name}"></td>
+                        <td th:text="${asset.type}"></td>
+                        <td th:text="${asset.conditionStatus}"></td>
+                        <td>
+                            <span class="badge" 
+                                  th:classappend="${asset.availabilityStatus == 'Available' ? 'badge-available' : (asset.availabilityStatus == 'Assigned' ? 'badge-assigned' : 'badge-maintenance')}"
+                                  th:text="${asset.availabilityStatus}"></span>
+                        </td>
+                        <td sec:authorize="hasRole('ADMIN')">
+                            <div style="display: flex; gap: 5px;">
+                                <a th:href="@{/assets/edit/{id}(id=${asset.id})}" class="btn btn-info" style="padding: 5px 10px; font-size: 12px;">Edit</a>
+                                <form th:action="@{/assets/delete/{id}(id=${asset.id})}" method="post" onsubmit="return confirm('Delete this asset?')">
+                                    <button type="submit" class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:replace="~{fragments :: footer}"></div>
+    </div>
+</body>
+</html>

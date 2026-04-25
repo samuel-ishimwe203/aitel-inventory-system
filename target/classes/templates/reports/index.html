@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Inventory Reports')}"></head>
+<body>
+    <div th:replace="~{fragments :: sidebar('reports')}"></div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1>Inventory Reports</h1>
+            <button class="btn btn-primary" onclick="window.print()">Print Report</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Asset Summary</h3>
+                <p>Generate detailed lists of all equipment sorted by department or condition.</p>
+                <a th:href="@{/reports/export/assets}" class="btn btn-dark" style="display: inline-block; margin-top: 10px;">Download CSV</a>
+            </div>
+            <div class="stat-card">
+                <h3>Audit History</h3>
+                <p>View the full movement history of all assets across the organization.</p>
+                <a th:href="@{/reports/export/logs}" class="btn btn-dark" style="display: inline-block; margin-top: 10px;">Export Log</a>
+            </div>
+        </div>
+
+        <div class="header">
+            <h2>Full Audit History</h2>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Action</th>
+                        <th>Details</th>
+                        <th>Admin</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="log : ${logs}">
+                        <td th:text="${#temporals.format(log.timestamp, 'dd MMM yyyy HH:mm:ss')}"></td>
+                        <td th:text="${log.action}"></td>
+                        <td th:text="${log.details}"></td>
+                        <td th:text="${log.performedBy}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="header" style="margin-top: 40px;">
+            <h2>Inventory Asset List</h2>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asset Name</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Last Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="asset : ${assets}">
+                        <td th:text="${asset.name}"></td>
+                        <td th:text="${asset.type}"></td>
+                        <td>
+                            <span class="badge" 
+                                  th:classappend="${asset.availabilityStatus == 'Available' ? 'badge-available' : (asset.availabilityStatus == 'Assigned' ? 'badge-assigned' : 'badge-maintenance')}"
+                                  th:text="${asset.availabilityStatus}"></span>
+                        </td>
+                        <td th:text="${#temporals.format(asset.registeredAt, 'dd MMM yyyy')}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:replace="~{fragments :: footer}"></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome - IMS</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            display: block; /* Override flex from main.css */
+        }
+        .hero {
+            height: 80vh;
+            background: linear-gradient(135deg, #001F3F 0%, #001529 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .hero h1 { font-size: 48px; margin-bottom: 20px; font-weight: 800; }
+        .hero p { font-size: 18px; color: #cbd5e0; max-width: 600px; margin-bottom: 40px; line-height: 1.6; }
+        .cta-buttons { display: flex; gap: 20px; }
+        .btn-large { padding: 15px 40px; font-size: 18px; }
+        
+        .developers-section {
+            padding: 60px 20px;
+            text-align: center;
+            background: white;
+        }
+        .developers-section h2 { color: #001F3F; margin-bottom: 30px; }
+        .dev-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        .dev-card {
+            padding: 20px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            width: 250px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .dev-card h3 { margin: 10px 0; color: #E40000; }
+        .dev-card p { color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div style="font-size: 32px; font-weight: 800; color: #E40000; margin-bottom: 20px;">IMS</div>
+        <h1>Inventory Management System</h1>
+        <p>A professional asset tracking solution designed for modern organizations to manage equipment, assignments, and audit trails with ease.</p>
+        
+        <div class="cta-buttons">
+            <a th:href="@{/login}" class="btn btn-primary btn-large">Sign In</a>
+            <a th:href="@{/register}" class="btn btn-dark btn-large" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">Create Account</a>
+        </div>
+    </div>
+
+    <div class="developers-section">
+        <h2>Developed By</h2>
+        <div class="dev-grid">
+            <div class="dev-card">
+                <h3>ishimwe samuel</h3>
+                <p>Full Stack Developer</p>
+            </div>
+            <div class="dev-card">
+                <h3>sindayiheba damier</h3>
+                <p>Systems Architect</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer" style="background: #111; color: white; padding: 40px 20px; text-align: center; margin: 0;">
+        <p>&copy; 2026 Inventory Management System (IMS). All rights reserved.</p>
+    </div>
+</body>
+</html>
